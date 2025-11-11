@@ -1,0 +1,78 @@
+from productos.models import Producto
+from categorias.models import Categoria
+
+
+Producto.objects.all()
+p=Producto.objects.get(id=14)
+p.etiquetas.all()
+
+------------------------------
+
+# Buscar productos que contengan "bicicleta" en el nombre (no distingue mayúsculas)
+productos = Producto.objects.filter(nombre__icontains="fideos")
+
+# Buscar productos de una categoría específica
+cat = Categoria.objects.get(tipo="Electrodomesticos")
+productos = Producto.objects.filter(categoria=cat)
+productos.all()
+
+# Buscar productos con precio mayor a 5000
+productos = Producto.objects.filter(precio__gt=5000)
+for p in productos:
+    print(p.nombre, p.precio)
+
+# Buscar productos con precio entre 1000 y 5000
+productos = Producto.objects.filter(precio__range=(1000, 5000))
+
+# Excluir productos de una categoría llamada "Ropa"
+productos = Producto.objects.exclude(categoria__tipo="Ropa")
+for p in productos:
+    print(p.nombre, p.precio)
+
+# Excluir productos cuyo nombre contiene "usado"
+productos = Producto.objects.exclude(nombre__icontains="usado")
+for p in productos:
+    print(p.nombre, p.precio)
+
+from django.db.models import Count, Avg, Max, Min
+
+# Contar cuántos productos hay por categoría
+categorias1 = Categoria.objects.annotate(total_productos=Count('productos'))
+for c in categorias1:
+    print(c.tipo, c.total_productos)
+
+# Calcular el precio promedio de todos los productos
+precio_promedio = Producto.objects.aggregate(Avg('precio'))
+print(precio_promedio)
+
+
+# Obtener el producto más caro y el más barato
+from django.db.models import Max, Min
+
+precios = Producto.objects.aggregate(Max('precio'), Min('precio')) # da como resultado un diccionario :o 
+mas_caro = Producto.objects.filter(precio=precios['precio__max']).first()
+mas_barato = Producto.objects.filter(precio=precios['precio__min']).first()
+
+print(f"Más caro: {mas_caro.nombre} (${mas_caro.precio})")
+print(f"Más barato: {mas_barato.nombre} (${mas_barato.precio})")
+
+from etiquetas.models import Etiqueta
+
+# Productos que tienen una etiqueta llamada "oferta"
+productos = Producto.objects.filter(etiquetas__nombre="oferta")
+for p in productos:
+    print(p.nombre, p.precio)
+
+# Productos que no tienen etiquetas
+sin_etiquetas = Producto.objects.filter(etiquetas=None)
+for p in productos:
+    print(p.nombre, p.precio)
+
+
+productos = Producto.objects.raw("SELECT * FROM productos_producto WHERE precio > %s", [5000])
+
+for p in productos:
+    print(p.nombre, p.precio)
+
+
+

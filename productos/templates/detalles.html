@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Detalle Producto {% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-warning text-white">
+        <h3>{{ producto.nombre }}</h3>
+    </div>
+    <div class="card-body">
+        <p> 
+            <strong> Precio :</strong> {{ producto.precio}}
+        </p>
+        <p> 
+            <strong> descripcion :</strong> {{ producto.descripcion}}
+        </p>
+        <p> 
+            <strong> categoria :</strong> {{ producto.categoria}}
+        </p>
+        <p> 
+            <strong> Peso:</strong> {{ producto.detalles.peso}}
+        </p>
+        <p> 
+            <strong> Alto :</strong> {{ producto.detalles.alto}}
+        </p>
+        <p> 
+            <strong> Ancho :</strong> {{ producto.detalles.ancho}}
+        </p>
+        <p> 
+            <strong> Largo:</strong> {{ producto.detalles.largo}}
+        </p>
+    </div>
+    <div class="card-footer">
+        <small>
+            <strong>Etiquetas:</strong> {{ producto.etiquetas.all|join:", " }}
+        </small>
+    </div>
+</div>
+
+{% endblock %}

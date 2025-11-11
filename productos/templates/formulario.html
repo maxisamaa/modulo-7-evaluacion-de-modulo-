@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}Nuevo Producto{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-secondary text-white">
+        {% if object %}Editar Producto{% else %}Nuevo Producto{% endif %}
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                {{ form.nombre }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Precio</label>
+                {{ form.precio }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                {{ form.descripcion }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Categoría</label>
+                {{ form.categoria }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Etiquetas</label><br>
+                {{ form.etiquetas }}
+            </div>
+
+            <hr>
+            <h5 class="mt-4 mb-3">Detalles del Producto</h5>
+
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Peso</label>
+                    <div class="input-group">
+                        {{ form.peso }}
+                        <span class="input-group-text">kg</span>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Alto</label>
+                    <div class="input-group">
+                        {{ form.alto }}
+                        <span class="input-group-text">cm</span>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Largo</label>
+                    <div class="input-group">
+                        {{ form.largo }}
+                        <span class="input-group-text">cm</span>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Ancho</label>
+                    <div class="input-group">
+                        {{ form.ancho }}
+                        <span class="input-group-text">cm</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <a href="{% url 'producto-lista' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+{% if form.errors %}
+<div class="alert alert-danger">
+  <ul>
+    {% for field in form %}
+      {% for error in field.errors %}
+        <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+      {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %} REGISTRO {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <table class="table table-hover table-bordered">
+        <thead class="table-primary">
+            <tr>
+                <th>nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for etiqueta in etiquetas %}
+            <tr>
+                <td>{{ etiqueta.nombre }}</td>
+                <td>
+                    <a href="{% url 'editar_etiqueta' etiqueta.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'eliminar_etiqueta' etiqueta.pk %}" class="btn btn-danger btn-sm">Borrar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2" class="text-center">No hay etiquetas registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

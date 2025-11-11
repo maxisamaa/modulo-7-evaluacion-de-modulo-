@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} REGISTRO {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <table class="table table-hover table-borderer">
+        <thead class="table-primary">
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Descripcion</th>
+                <th>Categoria </th>
+                <th>Acciones</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{producto.nombre}}</td>
+                <td>{{producto.precio}}</td>
+                <td>{{producto.descripcion}}</td>
+                <td>{{producto.categoria}}</td>
+                <td><a href="{% url 'detalle_producto' producto.pk %}" class="btn btn-success btn-sm"> Ver</a>
+                    <a href="{% url 'editar_producto' producto.pk %}" class="btn btn-warning btn-sm"> Editar</a>
+                    <a href="{% url 'eliminar_producto' producto.pk %}" class="btn btn-danger btn-sm"> Borrar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">
+                    no hay productos registradas , crea una nueva productos para verla aqui 
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
